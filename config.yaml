@@ -1,0 +1,41 @@
+data:
+  train_file: data/cybersecurity_training_preprocessed.csv
+  test_file: data/cybersecurity_test_preprocessed.csv
+  columns_to_drop:
+  - alert_ids
+  - client_code
+  - ip_third
+  - ip_fourth
+experiment:
+  normalize: true
+  normalize_method: "robust"
+  rare_to_value: 0.01
+  rare_value: other
+  max_encoding_ohe: 25
+  log_experiment: true
+  log_plots: 
+    - auc
+    - pr
+    - confusion_matrix
+    - feature_all
+  fold: 5
+  fix_imbalance: false
+  fix_imbalance_method: smote
+  low_variance_threshold: 0
+  remove_multicollinearity: false
+  remove_outliers: false
+  use_gpu: true
+models_creation:
+  n: 4
+  sort_metric: AUC
+  include_models: 
+    - xgboost
+    - lightgbm
+    - rf
+    - et
+models_tuning:
+  optimize: AUC
+  n_iter: 10
+blend_models: true
+tune_all_best_models: true
+save_path: results
